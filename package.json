@@ -1,0 +1,20 @@
+{
+  "name": "netwrk_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "express": "^4.19.2",
+    "strip-ansi": "^7.1.0",
+    "tail-file": "^1.4.16",
+    "ws": "^8.17.0"
+  }
+}

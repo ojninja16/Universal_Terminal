@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Terminal Monitor</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e1e1e;
+            color: #00ff00;
+            margin: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            max-height: 100%;
+            overflow-y: auto;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+    <pre id="output"></pre>
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host);
+
+        const output = document.getElementById('output');
+
+        socket.onmessage = (event) => {
+            output.textContent = event.data;
+            output.scrollTop = output.scrollHeight;
+        };
+    </script>
+</body>
+</html>
