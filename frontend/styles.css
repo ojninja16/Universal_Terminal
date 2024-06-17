@@ -1,0 +1,31 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 0;
+    margin: 0;
+}
+
+#terminal-output {
+    padding: 10px;
+    max-height: 100vh;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.command {
+    color: #00ff00; /* Green for commands */
+}
+
+.error {
+    color: #ff0000; /* Red for errors */
+}
+
+.output {
+    color: #ffffff; /* White for normal output */
+}
+
+.timestamp {
+    color: #888888; /* Grey for timestamps */
+}

@@ -1,30 +1,31 @@
-$pipeName = "\\.\pipe\UniversalTerminalOutput"
-$stopFlagFile = "$env:USERPROFILE\stop-logging.flag"
+$logFilePath = "$env:USERPROFILE\universal-terminal-log.txt"
+# Stop any existing transcription
+try {
+    Stop-Transcript
+} catch {
+    Write-Host "No existing transcription to stop."
+}
 
-function Write-OutputToPipe {
+# Start a new transcription
+Start-Transcript -Path $logFilePath -Append
+
+# Function to log command outputs
+function Log-CommandOutput {
     param (
         [string]$output
     )
+    Add-Content -Path $logFilePath -Value $output
+}
+
+# Main loop to capture command outputs
+while ($true) {
+    $input = Read-Host "PS>"
+    Log-CommandOutput "PS> $input"
     try {
-        $pipe = New-Object System.IO.Pipes.NamedPipeServerStream -ArgumentList $pipeName, [System.IO.Pipes.PipeDirection]::Out
-        $pipe.WaitForConnection()
-        $writer = New-Object System.IO.StreamWriter $pipe
-        $writer.AutoFlush = $true
-        $writer.WriteLine($output)
-        $writer.Dispose()
-        $pipe.Disconnect()
-        $pipe.Dispose()
+        $output = Invoke-Expression $input 2>&1
     } catch {
-        Write-Host "Error writing to pipe: $_"
+        $output = $_.Exception.Message
     }
+    Log-CommandOutput $output
+    Write-Host $output
 }
-
-Start-Transcript -Path "$env:USERPROFILE\universal-terminal-log.txt" -Append
-
-
-
-while (-not (Test-Path $stopFlagFile)) {
-    Start-Sleep -Seconds 1
-}
-
-Stop-Transcript
